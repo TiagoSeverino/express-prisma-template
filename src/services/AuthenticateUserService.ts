@@ -1,9 +1,8 @@
 import { compare } from 'bcryptjs';
-import { getRepository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
 
-import User from '../models/User';
 import auth from '../config/auth';
+import { User } from '../database/prisma';
 import AppError from '../errors/AppError';
 
 interface Request {
@@ -15,13 +14,17 @@ class AuthenticateUserService {
 	public async execute({
 		username,
 		password,
-	}: Request): Promise<{ user: User; token: string }> {
+	}: Request): Promise<{
+		user: {
+			username: string;
+			password: string;
+		};
+		token: string;
+	}> {
 		try {
 			if (!username || !password) throw new Error();
 
-			const userRepository = getRepository(User);
-
-			const user = await userRepository.findOne({ where: { username } });
+			const user = await User.findUnique({ where: { username } });
 
 			if (!user) throw new Error();
 

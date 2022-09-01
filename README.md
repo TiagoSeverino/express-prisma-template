@@ -1,5 +1,4 @@
-# express-typeorm-example
-
+# express-prisma-example
 
 Install steps:
 

@@ -1,9 +1,7 @@
-import 'reflect-metadata';
 import express, { json, NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 
 import './config/env';
-import './database';
 
 import routes from './routes';
 import AppError from './errors/AppError';
